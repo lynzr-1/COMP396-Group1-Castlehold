@@ -8,7 +8,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Elves_tower_map
-    second: {fileID: -5682177726514902387, guid: 9f0099e0be9a0a44196b72b0b4646252, type: 3}
+    second: {fileID: 2100000, guid: 40244849d6397c0478a19ddbb7e98383, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

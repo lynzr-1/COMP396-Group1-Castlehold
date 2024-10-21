@@ -3,7 +3,12 @@ guid: 3c080be2bf1330c4ab42a9c4934f6eb4
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Elves_tower_map
+    second: {fileID: 2100000, guid: 40244849d6397c0478a19ddbb7e98383, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
