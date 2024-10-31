@@ -5,18 +5,18 @@ using UnityEngine.AI;
 
 public class EnemyMovement : MonoBehaviour
 {
-    [SerializeField] private NavMeshAgent _agent;
+    [SerializeField] private NavMeshAgent agent;
     //[SerializeField] private GameObject _startPoint;
     //[SerializeField] private GameObject _endPoint;
-    [SerializeField] private Transform _destination;
+    [SerializeField] private Transform destination;
  
 
     // Start is called before the first frame update
     void Start()
     {
-        _agent = this.GetComponent<NavMeshAgent>();
+        agent = this.GetComponent<NavMeshAgent>();
 
-        if (_agent == null)
+        if (agent == null)
         {
             Debug.Log("The nav mesh agent is not assigned to " + gameObject.name);
         }
@@ -26,10 +26,10 @@ public class EnemyMovement : MonoBehaviour
     // Update is called once per frame
     private void SetDestination()
     {
-        if (_destination != null)
+        if (destination != null)
         { 
-            Vector3 targetVector = _destination.transform.position;
-            _agent.SetDestination(targetVector);
+            Vector3 targetVector = destination.transform.position;
+            agent.SetDestination(targetVector);
         }
     }
 }
