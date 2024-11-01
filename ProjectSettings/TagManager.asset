@@ -8,6 +8,7 @@ TagManager:
   - EnemyPathStart
   - Enemy
   - Consumable
+  - SpawnPoint
   layers:
   - Default
   - TransparentFX
