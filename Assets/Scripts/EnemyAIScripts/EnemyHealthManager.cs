@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyHealthManager : MonoBehaviour
 {
-    [SerializeField] private int maxHealth;
+    public int maxHealth;
     private int currentHealth;
     private Animator animator;
     private bool isDead = false;
