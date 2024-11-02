@@ -2,17 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyHealthManager : MonoBehaviour
+public class EnemyHealthManager : EnemyBehaviour
 {
     public int maxHealth;
     private int currentHealth;
-    private Animator animator;
     private bool isDead = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        animator = GetComponent<Animator>();
         currentHealth = maxHealth;
     }
 
