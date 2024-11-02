@@ -5,17 +5,13 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     [Header("Wave Settings")]
-    public int[] enemiesPerWave; //set these values in the inspector to set the number of enemies to be spawned in each wave
-
-    [Header("Enemy Prefabs")]
-    public GameObject[] enemyPrefabs;
+    public List<WaveConfig> waves = new List<WaveConfig>();  // List of wave configurations
 
     [Header("Spawner Settings")]
     private Transform spawnPoint;
     public float timeBetweenWaves = 10f;
     public float timeBetweenSpawns = 1f;
     private int waveNumber = 0;
-    private bool isSpawning = false;
 
     // Start is called before the first frame update
     void Start()
@@ -38,41 +34,37 @@ public class EnemySpawner : MonoBehaviour
 
     private IEnumerator StartNextWave()
     {
-        yield return new WaitForSeconds(timeBetweenWaves); //pause between waves
+        yield return new WaitForSeconds(timeBetweenWaves);  // Pause between waves
 
-        //start spawning the wave if wave number is valid
-        if (waveNumber < enemiesPerWave.Length)
+        if (waveNumber < waves.Count)
         {
-            int enemiesToSpawn = enemiesPerWave[waveNumber];
-            StartCoroutine(SpawnWave(enemiesToSpawn));
+            WaveConfig currentWave = waves[waveNumber];
+            StartCoroutine(SpawnWave(currentWave));
             waveNumber++;
         }
         else
         {
             Debug.Log("All waves completed!");
-            //create logic to call Level Complete screen here and transition to the next level
-            //if it is level 3 being completed, call the game over logic instead
+            // Handle end of level or transition to the next level
         }
     }
 
-    private IEnumerator SpawnWave(int enemiesToSpawn)
+    private IEnumerator SpawnWave(WaveConfig waveConfig)
     {
-
-        for (int i = 0; i < enemiesToSpawn; i++)
+        for (int i = 0; i < waveConfig.enemiesToSpawn; i++)
         {
-            //select enemy type based on wave progression
-            GameObject enemyPrefab = SelectEnemyForWave();
-            Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity);
-            yield return new WaitForSeconds(timeBetweenSpawns);  //delay between enemy spawns within the wave
+            AbstractFactory selectedFactory = SelectFactoryForWave(waveConfig.enemyFactories);
+            selectedFactory.CreateEnemy();
+            yield return new WaitForSeconds(timeBetweenSpawns);  // Delay between enemy spawns within the wave
         }
 
         StartCoroutine(StartNextWave());  // Start the next wave after this one completes
         Debug.Log("Starting next wave");
     }
 
-    private GameObject SelectEnemyForWave()
+    private AbstractFactory SelectFactoryForWave(List<AbstractFactory> factories)
     {
-        // Example: Randomly select an enemy from the array
-        return enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
+        // Randomly select a factory for variety in enemy types
+        return factories[Random.Range(0, factories.Count)];
     }
 }

@@ -11,13 +11,15 @@ GameObject:
   - component: {fileID: 3541166761078117997}
   - component: {fileID: 3711383613268584559}
   - component: {fileID: 1235357685511240498}
+  - component: {fileID: 4920475759766877559}
+  - component: {fileID: -4835646231717125675}
   - component: {fileID: 4005606366661350473}
   - component: {fileID: 2706012086063377295}
   - component: {fileID: 4179870251517832204}
-  - component: {fileID: 4920475759766877559}
+  - component: {fileID: 1012075681082352276}
   m_Layer: 0
   m_Name: Goblin
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -83,46 +85,6 @@ CapsuleCollider:
   m_Height: 1.0949054
   m_Direction: 1
   m_Center: {x: 0, y: 0.54754734, z: 0}
---- !u!114 &4005606366661350473
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 148232246833753345}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b65e204cb56bdd44815249e1485a52a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2706012086063377295
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 148232246833753345}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b44742cd9d315f24c85cc24a37805152, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 15
---- !u!114 &4179870251517832204
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 148232246833753345}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af7afa50e419ccd4db5fbf962f03a105, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  goldAmount: 0
-  consumables: []
-  dropChance: 0.1
 --- !u!195 &4920475759766877559
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -145,6 +107,74 @@ NavMeshAgent:
   m_BaseOffset: -0.1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &-4835646231717125675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 148232246833753345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8ef8929d19063d4a947838a29519ecc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolManager: {fileID: 0}
+--- !u!114 &4005606366661350473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 148232246833753345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b65e204cb56bdd44815249e1485a52a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolManager: {fileID: 0}
+--- !u!114 &2706012086063377295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 148232246833753345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b44742cd9d315f24c85cc24a37805152, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolManager: {fileID: 0}
+  maxHealth: 15
+--- !u!114 &4179870251517832204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 148232246833753345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af7afa50e419ccd4db5fbf962f03a105, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goldAmount: 0
+  consumables: []
+  dropChance: 0.1
+--- !u!114 &1012075681082352276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 148232246833753345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b97f700eb584d7468173deb1eb207b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  poolManager: {fileID: 0}
 --- !u!1 &802254827446651119
 GameObject:
   m_ObjectHideFlags: 0
