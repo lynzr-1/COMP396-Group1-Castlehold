@@ -9,11 +9,13 @@ public class EnemyBehaviour : MonoBehaviour
     protected Animator animator;
     private bool isAttacking;
     public PoolManager poolManager;  // Reference to the pool manager
+    private Renderer enemyRenderer;
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+        enemyRenderer = GetComponentInChildren<Renderer>();
     }
     public void ReachCastle()
     {
