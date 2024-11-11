@@ -1,10 +1,14 @@
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(NavMeshAgent))]
+
 //agent inherits from enemy behaviour and IAgent
 public class SkeletonAgent : EnemyBehaviour, IAgent
 {
-    private Vector3 _destination;
+
+    [SerializeField] private NavMeshAgent _myself;
+    [SerializeField] private Vector3 _destination;
 
     // Update is called once per frame
     void FixedUpdate()
