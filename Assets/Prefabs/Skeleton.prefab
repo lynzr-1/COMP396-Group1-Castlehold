@@ -82,15 +82,6 @@ PrefabInstance:
       addedObject: {fileID: 4748372498722612675}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e3b4f55167b6bff4eb0fdd7d799daaf9, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4909220514453972945}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e3b4f55167b6bff4eb0fdd7d799daaf9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6143837749508672247}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e3b4f55167b6bff4eb0fdd7d799daaf9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8468072106127780792}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e3b4f55167b6bff4eb0fdd7d799daaf9, type: 3}
-      insertIndex: -1
       addedObject: {fileID: -3267559734756724032}
   m_SourcePrefab: {fileID: 100100000, guid: e3b4f55167b6bff4eb0fdd7d799daaf9, type: 3}
 --- !u!1 &1219805131238463358 stripped
@@ -206,48 +197,6 @@ CapsuleCollider:
   m_Height: 2.5371165
   m_Direction: 1
   m_Center: {x: -0.044806845, y: 1.2089397, z: 0.078224935}
---- !u!114 &4909220514453972945
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1219805131238463358}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b65e204cb56bdd44815249e1485a52a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  poolManager: {fileID: 0}
---- !u!114 &6143837749508672247
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1219805131238463358}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b44742cd9d315f24c85cc24a37805152, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  poolManager: {fileID: 0}
-  maxHealth: 25
---- !u!114 &8468072106127780792
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1219805131238463358}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af7afa50e419ccd4db5fbf962f03a105, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  goldAmount: 20
-  consumables: []
-  dropChance: 0.1
 --- !u!114 &-3267559734756724032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,4 +209,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd8a6ec21bfe8cd4f8f4e6967e4cc3a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 10
+  speed: 5
   poolManager: {fileID: 0}
+  _myself: {fileID: 0}
+  _destination: {x: 0, y: 0, z: 0}
