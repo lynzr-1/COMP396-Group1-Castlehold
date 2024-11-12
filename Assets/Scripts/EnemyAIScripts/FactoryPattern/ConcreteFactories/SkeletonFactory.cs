@@ -4,6 +4,7 @@ using UnityEngine.Pool;
 public class SkeletonFactory : AbstractFactory
 {
     public PoolManager skeletonPoolManager;  // Reference to the object pool for skeleton
+
     public override void CreateEnemy()
     {
         GameObject skeleton = skeletonPoolManager.GetObject(); ///get skeleton from the pool
