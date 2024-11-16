@@ -5,10 +5,15 @@ using UnityEngine.AI;
 
 public class EnemyBehaviour : MonoBehaviour
 {
-    [Header("Enemy Settings")]
+    [Header("Enemy Attack Settings")]
     public float damage = 10f;
     public float speed = 5f;
 
+    [Header("Enemy Health Settings")]
+    public float maxHealth;
+
+    private float _currentHealth;
+    private bool _isDead = false;
     public PoolManager poolManager;  // Reference to the pool manager
 
     #region Private Variables
@@ -26,6 +31,9 @@ public class EnemyBehaviour : MonoBehaviour
     {
         // Set the end point for the enemy to reach
         GameObject endPointObject = GameObject.FindGameObjectWithTag("EnemyPathEnd");
+
+        //set the enemy's starting health
+        _currentHealth = maxHealth;
 
         if (endPointObject != null)
         {
@@ -48,6 +56,8 @@ public class EnemyBehaviour : MonoBehaviour
 
     private void Update()
     {
+        if (_isDead) return;  //skip movement logic if the enemy is dead
+
         if (!hasReachedCastle && endPoint != null && Vector3.Distance(transform.position, endPoint.position) <= reachThreshold)
         {
             hasReachedCastle = true;
@@ -71,10 +81,82 @@ public class EnemyBehaviour : MonoBehaviour
         StartCoroutine(FadeOutAfterDelay(1.0f));
     }
 
-    #region Attack Anims & Coroutines to Fade After Delay
+    // Method to take damage - damage amount will be passed from towers
+    public void TakeDamage(float damage)
+    {
+        if (_isDead) return;  // Prevent further damage if already dead
+
+        _currentHealth -= damage;
+
+        if (_currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    #region Attack/Die Anims & Coroutines to Fade After Delay
+
+    //method to trigger death animation when enemy dies
+    public void Die()
+    {
+        _isDead = true;
+
+        // Stop and disable the NavMeshAgent
+        if (agent != null)
+        {
+            agent.velocity = Vector3.zero;
+            agent.isStopped = true;
+            agent.enabled = false;
+        }
+
+        // Disable Rigidbody interactions
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            rb.isKinematic = true;
+        }
+
+        // Disable the collider to prevent interactions
+        Collider col = GetComponent<Collider>();
+        if (col != null)
+        {
+            col.enabled = false;
+        }
+
+        animator.SetTrigger("Die");  // Trigger death animation
+        StartCoroutine(Destroy());  // Start coroutine to destroy object
+    }
+
+    //coroutine to destroy the enemy object either when it dies, or reaches the castle
+    private IEnumerator Destroy()
+    {
+        // Wait until the "Die" animation is playing
+        while (!animator.GetCurrentAnimatorStateInfo(0).IsName("Die"))
+        {
+            yield return null;
+        }
+
+        // Wait for the length of the "Die" animation
+        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
+
+        // Return the object to the pool
+        if (poolManager != null)
+        {
+            poolManager.ReturnObject(gameObject);
+        }
+        else
+        {
+            Debug.LogWarning("Pool manager not assigned. Destroying object.");
+            Destroy(gameObject);
+        }
+    }
+
     public void StartAttack(float duration)
     {
         if (isAttacking) return;  // Prevent multiple attacks at the same time
+        if (_isDead) return;  // Do nothing if the enemy is dead
 
         isAttacking = true;
         animator.SetBool("IsAttacking", true);  // Set to loop the Attack state
