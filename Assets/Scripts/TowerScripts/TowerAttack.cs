@@ -8,6 +8,7 @@ public class TowerAttack : MonoBehaviour
     public float damage = 5f; //amount of damage this tower does
     public GameObject projectilePrefab;
     public Transform projectileSpawnPoint;
+    public Transform cannonRotator;
 
     [Header("Tower Visual Effects")]
     public GameObject smokePrefab;
@@ -62,9 +63,25 @@ public class TowerAttack : MonoBehaviour
 
     private void Attack()
     {
+
         if (enemiesInRange.Count > 0)
         {
             GameObject targetEnemy = enemiesInRange[0]; //attack the first enemy in range - we can change this logic later if needed
+
+            if (projectileSpawnPoint != null)
+            {
+                CannonRotator cannonRotator = projectileSpawnPoint.GetComponentInParent<CannonRotator>();
+                if (cannonRotator != null)
+                {
+                    cannonRotator.target = targetEnemy.transform;
+                    Debug.Log($"Cannon Rotator assigned target: {targetEnemy.name}");
+                }
+                else
+                {
+                    Debug.LogWarning("CannonRotator script is missing or not assigned!");
+                }
+            }
+       
 
             if (IsInRange(targetEnemy))
             {
