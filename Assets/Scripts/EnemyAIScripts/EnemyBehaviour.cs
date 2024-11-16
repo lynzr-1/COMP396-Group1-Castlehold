@@ -89,6 +89,20 @@ public class EnemyBehaviour : MonoBehaviour
         }
     }
 
+    private void NotifySpawner()
+    {
+        EnemySpawner spawner = FindObjectOfType<EnemySpawner>();
+        if (spawner != null)
+        {
+            spawner.OnEnemyRemoved();
+        }
+    }
+
+    private void OnDestroy()  // Call this when the enemy is destroyed or returned to the pool
+    {
+        NotifySpawner();
+    }
+
     #region Attack/Die Anims & Coroutines to Fade After Delay
 
     //method to trigger death animation when enemy dies
