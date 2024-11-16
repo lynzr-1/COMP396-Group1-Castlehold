@@ -5,35 +5,166 @@ using UnityEngine.AI;
 
 public class EnemyBehaviour : MonoBehaviour
 {
+    [Header("Enemy Attack Settings")]
+    public float damage = 10f;
+    public float speed = 5f;
+
+    [Header("Enemy Health Settings")]
+    public float maxHealth;
+
+    private float _currentHealth;
+    private bool _isDead = false;
+    public PoolManager poolManager;
+
+    #region Private Variables
     protected NavMeshAgent agent;
     protected Animator animator;
+    protected CastleHealthManager castleHealthManager;
     private bool isAttacking;
-    public PoolManager poolManager;  // Reference to the pool manager
     private Renderer enemyRenderer;
+    private Transform endPoint;
+    private float reachThreshold = 1.0f;
+    private bool hasReachedCastle = false; //to ensure reach castle is only called once when the enemy reaches it
+    #endregion
+
+    private void Start()
+    {
+        // Set the end point for the enemy to reach
+        GameObject endPointObject = GameObject.FindGameObjectWithTag("EnemyPathEnd");
+
+        //set the enemy's starting health
+        _currentHealth = maxHealth;
+
+        if (endPointObject != null)
+        {
+            endPoint = endPointObject.transform;
+            agent.SetDestination(endPoint.position);
+        }
+        else
+        {
+            Debug.LogError("End point not found. Please tag the end point with 'EnemyPathEnd'.");
+        }
+    }
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         enemyRenderer = GetComponentInChildren<Renderer>();
+        castleHealthManager = FindObjectOfType<CastleHealthManager>();
     }
+
+    private void Update()
+    {
+        if (_isDead) return;  //skip movement logic if the enemy is dead
+
+        if (!hasReachedCastle && endPoint != null && Vector3.Distance(transform.position, endPoint.position) <= reachThreshold)
+        {
+            hasReachedCastle = true;
+            ReachCastle();  // Call ReachCastle from EnemyBehaviour when reaching the end point
+        }
+    }
+
     public void ReachCastle()
     {
-        Debug.Log("Enemy reached end point");
 
-        // Stop the navmesh agent to halt movement at the gate
-        agent.isStopped = true;
-
-        // Play attack animation
-        animator.SetTrigger("Attack");
+        agent.isStopped = true; // Stop the navmesh agent to halt movement at the gate
+        animator.SetTrigger("Attack"); // Play attack animation
+        castleHealthManager.TakeDamage(damage); //call the take damage function on the castle
 
         // Start the fade out coroutine after a delay to allow the attack animation time to play
         StartCoroutine(FadeOutAfterDelay(1.0f));
     }
 
+    // Method to take damage - damage amount will be passed from towers
+    public void TakeDamage(float damage)
+    {
+        if (_isDead) return;  // Prevent further damage if already dead
+
+        _currentHealth -= damage;
+
+        if (_currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void NotifySpawner()
+    {
+        EnemySpawner spawner = FindObjectOfType<EnemySpawner>();
+        if (spawner != null)
+        {
+            spawner.OnEnemyRemoved();
+        }
+    }
+
+    private void OnDestroy()  // Call this when the enemy is destroyed or returned to the pool
+    {
+        NotifySpawner();
+    }
+
+    #region Attack/Die Anims & Coroutines to Fade After Delay
+
+    //method to trigger death animation when enemy dies
+    public void Die()
+    {
+        _isDead = true;
+
+        // Stop and disable the NavMeshAgent
+        if (agent != null)
+        {
+            agent.velocity = Vector3.zero;
+            agent.isStopped = true;
+            agent.enabled = false;
+        }
+
+        // Disable the collider to prevent interactions
+        Collider col = GetComponent<Collider>();
+        if (col != null)
+        {
+            col.enabled = false;
+        }
+
+        animator.SetTrigger("Die");  // Trigger death animation
+
+        // Notify all towers about the enemy's destruction
+        TowerAttack[] towers = FindObjectsOfType<TowerAttack>();
+        foreach (TowerAttack tower in towers)
+        {
+            tower.NotifyEnemyDestroyed(gameObject);
+        }
+
+        StartCoroutine(Destroy());  // Start coroutine to destroy object
+    }
+
+    //coroutine to destroy the enemy object either when it dies, or reaches the castle
+    private IEnumerator Destroy()
+    {
+        // Wait until the "Die" animation is playing
+        while (!animator.GetCurrentAnimatorStateInfo(0).IsName("Die"))
+        {
+            yield return null;
+        }
+
+        // Wait for the length of the "Die" animation
+        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
+
+        // Return the object to the pool
+        if (poolManager != null)
+        {
+            poolManager.ReturnObject(gameObject);
+        }
+        else
+        {
+            Debug.LogWarning("Pool manager not assigned. Destroying object.");
+            Destroy(gameObject);
+        }
+    }
+
     public void StartAttack(float duration)
     {
         if (isAttacking) return;  // Prevent multiple attacks at the same time
+        if (_isDead) return;  // Do nothing if the enemy is dead
 
         isAttacking = true;
         animator.SetBool("IsAttacking", true);  // Set to loop the Attack state
@@ -75,4 +206,5 @@ public class EnemyBehaviour : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    #endregion
 }
