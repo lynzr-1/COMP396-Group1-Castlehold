@@ -61,7 +61,7 @@ public class TowerDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, 
             if (hit.collider.CompareTag("ValidTowerPlacement"))
             {
                 tilePosition = hit.transform.position; // Save the tile position for snapping
-                Debug.Log("Tile position detected: " + tilePosition);
+                //Debug.Log("Tile position detected: " + tilePosition);
                 return true;
             }
         }

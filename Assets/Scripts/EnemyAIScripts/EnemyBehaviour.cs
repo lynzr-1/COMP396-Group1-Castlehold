@@ -14,7 +14,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     private float _currentHealth;
     private bool _isDead = false;
-    public PoolManager poolManager;  // Reference to the pool manager
+    public PoolManager poolManager;
 
     #region Private Variables
     protected NavMeshAgent agent;
@@ -38,7 +38,7 @@ public class EnemyBehaviour : MonoBehaviour
         if (endPointObject != null)
         {
             endPoint = endPointObject.transform;
-            agent.SetDestination(endPoint.position);  // Use inherited agent from EnemyBehaviour
+            agent.SetDestination(endPoint.position);
         }
         else
         {
@@ -61,7 +61,6 @@ public class EnemyBehaviour : MonoBehaviour
         if (!hasReachedCastle && endPoint != null && Vector3.Distance(transform.position, endPoint.position) <= reachThreshold)
         {
             hasReachedCastle = true;
-            Debug.Log("Reached Castle");
             ReachCastle();  // Call ReachCastle from EnemyBehaviour when reaching the end point
         }
     }
@@ -69,12 +68,8 @@ public class EnemyBehaviour : MonoBehaviour
     public void ReachCastle()
     {
 
-        // Stop the navmesh agent to halt movement at the gate
-        agent.isStopped = true;
-
-        // Play attack animation
-        animator.SetTrigger("Attack");
-        Debug.Log("Calling Take Damage on castle");
+        agent.isStopped = true; // Stop the navmesh agent to halt movement at the gate
+        animator.SetTrigger("Attack"); // Play attack animation
         castleHealthManager.TakeDamage(damage); //call the take damage function on the castle
 
         // Start the fade out coroutine after a delay to allow the attack animation time to play
@@ -109,15 +104,6 @@ public class EnemyBehaviour : MonoBehaviour
             agent.enabled = false;
         }
 
-        // Disable Rigidbody interactions
-        Rigidbody rb = GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.velocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-            rb.isKinematic = true;
-        }
-
         // Disable the collider to prevent interactions
         Collider col = GetComponent<Collider>();
         if (col != null)
@@ -126,6 +112,14 @@ public class EnemyBehaviour : MonoBehaviour
         }
 
         animator.SetTrigger("Die");  // Trigger death animation
+
+        // Notify all towers about the enemy's destruction
+        TowerAttack[] towers = FindObjectsOfType<TowerAttack>();
+        foreach (TowerAttack tower in towers)
+        {
+            tower.NotifyEnemyDestroyed(gameObject);
+        }
+
         StartCoroutine(Destroy());  // Start coroutine to destroy object
     }
 

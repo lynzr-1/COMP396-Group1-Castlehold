@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class TowerAttack : MonoBehaviour
 {
@@ -24,10 +22,15 @@ public class TowerAttack : MonoBehaviour
     {
         _attackTimer -= Time.deltaTime;
 
-        if (_attackTimer <= 0f && enemiesInRange.Count > 0)
+        if (_attackTimer <= 0f)
         {
-            Attack();
-            _attackTimer = attackInterval;
+            CleanupEnemiesList();
+
+            if (enemiesInRange.Count > 0)
+            {
+                Attack();
+                _attackTimer = attackInterval;
+            }
         }
     }
 
@@ -43,10 +46,17 @@ public class TowerAttack : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        //if the enemy leaves the tower's range, remove it from the list
         if (other.CompareTag("Enemy"))
         {
-            enemiesInRange.Remove(other.gameObject);
+            if (enemiesInRange.Contains(other.gameObject))
+            {
+                enemiesInRange.Remove(other.gameObject);
+                Debug.Log($"Removed {other.gameObject.name} from enemiesInRange.");
+            }
+            else
+            {
+                Debug.LogWarning($"Enemy {other.gameObject.name} was not found in enemiesInRange!");
+            }
         }
     }
 
@@ -56,18 +66,16 @@ public class TowerAttack : MonoBehaviour
         {
             GameObject targetEnemy = enemiesInRange[0]; //attack the first enemy in range - we can change this logic later if needed
 
-            if (targetEnemy != null) //make sure the enemy still exists in game
+            if (IsInRange(targetEnemy))
             {
                 FireProjectile(targetEnemy);
-
-                //play any applicable attack effects here
                 PlaySmokeEffect();
-
                 Debug.Log($"Attacked {targetEnemy.name} for {damage} damage.");
             }
             else
             {
-                enemiesInRange.RemoveAt(0); // Remove the destroyed object from the list
+                enemiesInRange.Remove(targetEnemy); // Remove enemy if it's out of range
+                Debug.LogWarning($"{targetEnemy.name} is out of range and was removed.");
             }
         }
     }
@@ -96,6 +104,29 @@ public class TowerAttack : MonoBehaviour
         { 
             GameObject smoke = Instantiate(smokePrefab, smokeSpawner.position, smokeSpawner.rotation);
             Destroy(smoke, 2f);
+        }
+    }
+
+    //**** HELPER METHODS ****//
+    private bool IsInRange(GameObject enemy)
+    {
+        float distance = Vector3.Distance(transform.position, enemy.transform.position);
+        float range = GetComponent<SphereCollider>().radius;
+        return distance <= range;
+    }
+
+    private void CleanupEnemiesList()
+    {
+        enemiesInRange.RemoveAll(enemy => enemy == null || !IsInRange(enemy));
+    }
+
+    public void NotifyEnemyDestroyed(GameObject enemy)
+    {
+        // Remove the destroyed enemy if it's still in the list
+        if (enemiesInRange.Contains(enemy))
+        {
+            enemiesInRange.Remove(enemy);
+            Debug.Log($"Notified: Removed destroyed enemy {enemy.name} from list.");
         }
     }
 }
