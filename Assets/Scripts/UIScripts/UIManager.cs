@@ -11,7 +11,7 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _goldCounterText.text = "Gold: " + 0; //replace with variables from gold counter script later
+        _goldCounterText.text = "100"; //replace with variables from gold counter script later
         _waveCounter.text = "Wave " + 1 + " of " + 5; //replace with variables from wave counter logic script later
     }
 
