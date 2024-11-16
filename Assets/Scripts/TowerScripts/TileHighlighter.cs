@@ -21,7 +21,7 @@ public class TileHighlighter : MonoBehaviour
     // Enable and position the highlight
     public void ShowHighlight(Vector3 position, bool isValid)
     {
-        Debug.Log("Showing highlight at position: " + position + ", valid: " + isValid);
+        //Debug.Log("Showing highlight at position: " + position + ", valid: " + isValid);
         position.y = 0.21f;
         transform.position = position;
         highlightRenderer.material.color = isValid ? validColor : invalidColor;
