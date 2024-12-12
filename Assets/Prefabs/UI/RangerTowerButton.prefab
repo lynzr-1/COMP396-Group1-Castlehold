@@ -87,6 +87,8 @@ GameObject:
   - component: {fileID: 336764099607588475}
   - component: {fileID: 6719357395630140007}
   - component: {fileID: 4237704582772239817}
+  - component: {fileID: 466900091601859624}
+  - component: {fileID: 6616724760434731252}
   m_Layer: 5
   m_Name: RangerTowerButton
   m_TagString: Untagged
@@ -198,6 +200,39 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &466900091601859624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6452587318144554955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 343bfe713067ce34a9599db825cdf950, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  towerName: 
+  range: 
+  damage: 
+  attackSpeed: 
+  tooltipManager: {fileID: 0}
+--- !u!114 &6616724760434731252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6452587318144554955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68b8b8199f56669428c1e93e6596d48f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerGoldManager: {fileID: 0}
+  tileHighlighter: {fileID: 0}
+  towerPrefab: {fileID: 7394868392427540019, guid: 07b525f84ecf6a945be1d2102b14c558, type: 3}
+  towerCost: 60
 --- !u!1 &8395818903265102221
 GameObject:
   m_ObjectHideFlags: 0
