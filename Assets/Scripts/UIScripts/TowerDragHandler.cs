@@ -5,16 +5,23 @@ using UnityEngine.EventSystems;
 
 public class TowerDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
+    [SerializeField] private PlayerGoldManager _playerGoldManager; //assign the gold manager script
 
     private GameObject towerPreview;
-    public GameObject towerPrefab;
-    public TileHighlighter tileHighlighter;
     private bool isValidPlacement = false;
     private Vector3 tilePosition;
+    private bool canPlace = false; //for gold check
+    private bool isPlacingTower = false; //to avoid duplicate placements
+
+    public TileHighlighter tileHighlighter;
+
+    [Header("Tower Details")]
+    public GameObject towerPrefab;
+    public int towerCost = 0;
+    
 
     private void Start()
     {
-        //tileHighlighter = FindObjectOfType<TileHighlighter>();
         if (tileHighlighter == null)
         {
             Debug.LogError("TileHighlighter not found in the scene!");
@@ -23,31 +30,66 @@ public class TowerDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, 
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        towerPreview = Instantiate(towerPrefab, GetMouseWorldPosition(), Quaternion.identity);
-        towerPreview.GetComponent<Collider>().enabled = false; // Disable collisions for preview
+        if (isPlacingTower) return; //to avoid duplicate placements
+
+        if (_playerGoldManager != null && _playerGoldManager.GetGold() >= towerCost)
+        {
+            towerPreview = Instantiate(towerPrefab, GetMouseWorldPosition(), Quaternion.identity); //instantiate a preview of the tower
+            towerPreview.GetComponent<Collider>().enabled = false; //disable collisions for preview
+            canPlace = true; //has enough gold so can place the tower
+            isPlacingTower = true;
+        }
+        else 
+        {
+            Debug.LogWarning("Not enough gold to purchase this tower!");
+            canPlace = false;
+        }
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (towerPreview != null)
-        {
-            Vector3 position = GetMouseWorldPosition();
-            towerPreview.transform.position = position;
+        if (!isPlacingTower || !canPlace || towerPreview == null) return;
 
-            // Check if the current position is valid and update the highlight
-            isValidPlacement = CheckValidPlacement(position);
-            tileHighlighter.ShowHighlight(tilePosition, isValidPlacement);
-        }
+        Vector3 position = GetMouseWorldPosition();
+        towerPreview.transform.position = position;
+
+        //check if the current position is valid and update the highlight
+        isValidPlacement = CheckValidPlacement(position);
+        tileHighlighter.ShowHighlight(tilePosition, isValidPlacement);
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (isValidPlacement)
+        if (!isPlacingTower || towerPreview == null) return;
+
+        if (canPlace && isValidPlacement)
         {
-            Instantiate(towerPrefab, tilePosition, Quaternion.identity);
+            if (_playerGoldManager.SpendGold(towerCost)) //subtract gold from the player
+            {
+                Instantiate(towerPrefab, tilePosition, Quaternion.identity); //place the tower
+            }
+            else
+            {
+                Debug.LogWarning("Failed to spend gold.");
+            }
         }
-        Destroy(towerPreview);
-        tileHighlighter.HideHighlight();
+        else
+        {
+            Debug.Log("Invalid placement or insufficient gold.");
+        }
+
+        Cleanup(); //call clean up function to destroy the preview object and reset variables
+    }
+
+    private void Cleanup()
+    {
+        if (towerPreview != null)
+        {
+            Destroy(towerPreview); // Destroy the preview object
+        }
+        tileHighlighter.HideHighlight(); // Hide any highlights
+        isPlacingTower = false;
+        canPlace = false;
     }
 
     private bool CheckValidPlacement(Vector3 position)
@@ -60,8 +102,7 @@ public class TowerDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, 
         {
             if (hit.collider.CompareTag("ValidTowerPlacement"))
             {
-                tilePosition = hit.transform.position; // Save the tile position for snapping
-                //Debug.Log("Tile position detected: " + tilePosition);
+                tilePosition = hit.transform.position; //save the tile position for snapping
                 return true;
             }
         }
