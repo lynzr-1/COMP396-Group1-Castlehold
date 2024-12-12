@@ -16,9 +16,6 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //**** GOLD COUNTER ****//
-        _goldCounterText.text = "100"; //replace with variables from gold counter script later
-
         //**** WAVE COUNTER ****//
         _waveCount = _enemySpawner.waves.Count; //get the total number of waves
         _waveCounter.text = $"Wave Incoming";
@@ -55,5 +52,10 @@ public class UIManager : MonoBehaviour
         // Unsubscribe to avoid memory leaks
         _enemySpawner.OnWaveStarted -= UpdateWaveCounter;
         _enemySpawner.OnCountdownStarted -= StartCountdown;
+    }
+
+    public void UpdateGoldCounter(int currentGold) 
+    {
+        _goldCounterText.text = $"{currentGold}";
     }
 }
