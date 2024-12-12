@@ -14,6 +14,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     private float _currentHealth;
     private bool _isDead = false;
+    private float _currentSpeed;
     public PoolManager poolManager;
 
     #region Private Variables
@@ -34,6 +35,9 @@ public class EnemyBehaviour : MonoBehaviour
 
         //set the enemy's starting health
         _currentHealth = maxHealth;
+
+        //set the enemy's starting speed
+        _currentSpeed = speed;
 
         if (endPointObject != null)
         {
@@ -101,6 +105,20 @@ public class EnemyBehaviour : MonoBehaviour
     private void OnDestroy()  // Call this when the enemy is destroyed or returned to the pool
     {
         NotifySpawner();
+    }
+
+    public void SetSpeedMultiplier(float multiplier)
+    {
+        _currentSpeed = speed * multiplier;
+        agent.speed = _currentSpeed;
+        Debug.Log($"Enemy speed set to {_currentSpeed}");
+    }
+
+    public void ResetSpeedMultiplier()
+    {
+        _currentSpeed = speed;
+        agent.speed = speed;
+        Debug.Log($"Enemy speed reset to {speed}");
     }
 
     #region Attack/Die Anims & Coroutines to Fade After Delay
