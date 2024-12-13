@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4158389367759471892
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7414229786571676376}
+  m_Layer: 0
+  m_Name: GoldDropLocation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7414229786571676376
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4158389367759471892}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.5, z: -0.25}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7592419149283643981}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7592419149283544609
 GameObject:
   m_ObjectHideFlags: 0
@@ -1226,9 +1257,7 @@ GameObject:
   - component: {fileID: 7592419149211803940}
   - component: {fileID: 8344919126738981017}
   - component: {fileID: -8813035499876582964}
-  - component: {fileID: 838587001200595320}
   - component: {fileID: 2890604473215837845}
-  - component: {fileID: 2129900557362144797}
   m_Layer: 0
   m_Name: DragonBoss
   m_TagString: Enemy
@@ -1251,6 +1280,7 @@ Transform:
   m_Children:
   - {fileID: 7592419149283643929}
   - {fileID: 7592419149283643983}
+  - {fileID: 7414229786571676376}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &7592419149276134905
@@ -1361,20 +1391,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &838587001200595320
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7592419149283544687}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b44742cd9d315f24c85cc24a37805152, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  poolManager: {fileID: 0}
-  maxHealth: 100
 --- !u!114 &2890604473215837845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1387,22 +1403,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af7afa50e419ccd4db5fbf962f03a105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goldAmount: 75
-  consumables: []
-  dropChance: 0.1
---- !u!114 &2129900557362144797
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7592419149283544687}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b65e204cb56bdd44815249e1485a52a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  poolManager: {fileID: 0}
+  minGold: 50
+  maxGold: 75
+  dropChance: 1
+  goldCoinPrefab: {fileID: 578397971323283945, guid: 6442b13d1bcb3f1468cf62722b0d1ee4, type: 3}
+  dropPosition: {fileID: 7414229786571676376}
 --- !u!1 &7592419149283544689
 GameObject:
   m_ObjectHideFlags: 0
