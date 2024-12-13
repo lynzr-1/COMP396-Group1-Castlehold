@@ -21,11 +21,12 @@ public class EnemySpawner : MonoBehaviour
     [Header("Spawner Settings")]
     private Transform spawnPoint;
 
-    private int currentLevelIndex = 0; // Tracks the current level
-    private int waveNumber = 0; // Tracks the current wave within the level
+    private int currentLevelIndex = 0; //tracks the current level
+    private int waveNumber = 0; //tracks the current wave within the level
     private int activeEnemies = 0;
 
-    private bool isWaveInProgress = false;
+    private bool isWaveInProgress = false; //flag for wave completion
+    private bool isLevelComplete = false; //flag for level completion
 
     // Events for UI updates
     public event Action<float> OnCountdownStarted;
@@ -34,7 +35,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log($"Total levels configured: {levels.Count}");
+        Debug.Log($"[EnemySpawner] Total levels configured: {levels.Count}");
 
         GameObject spawnPointObject = GameObject.FindGameObjectWithTag("SpawnPoint");
         if (spawnPointObject != null)
@@ -43,7 +44,7 @@ public class EnemySpawner : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Spawn point not found");
+            Debug.LogError("[EnemySpawner] Spawn point not found");
             return;
         }
 
@@ -54,19 +55,21 @@ public class EnemySpawner : MonoBehaviour
     {
         if (levelIndex >= levels.Count)
         {
-            Debug.Log("No more levels to start.");
+            Debug.Log("[EnemySpawner] No more levels to start.");
             return;
         }
 
         currentLevelIndex = levelIndex;
-        waveNumber = 0; // Reset wave count for the new level
-        Debug.Log($"Starting Level {currentLevelIndex + 1}");
+        waveNumber = 0; //reset wave count for the new level
+        isLevelComplete = false;
+        Debug.Log($"[EnemySpawner] Starting Level {currentLevelIndex + 1}");
 
         StartCoroutine(StartFirstWave());
     }
 
     private IEnumerator StartFirstWave()
     {
+        Debug.Log($"[EnemySpawner] Countdown before first wave: {timeBeforeFirstWave} seconds");
         OnCountdownStarted?.Invoke(timeBeforeFirstWave);
 
         float countdown = timeBeforeFirstWave;
@@ -81,40 +84,46 @@ public class EnemySpawner : MonoBehaviour
 
     private IEnumerator StartNextWave()
     {
-        if (isWaveInProgress)
+        if (isWaveInProgress || isLevelComplete)
         {
+            Debug.Log("[EnemySpawner] Cannot start next wave - either wave is in progress or level is complete.");
             yield break;
         }
 
         var currentLevel = levels[currentLevelIndex];
+
         if (waveNumber >= currentLevel.waves.Count)
         {
-            Debug.Log($"All waves completed for Level {currentLevelIndex + 1}");
-            OnAllWavesCompleted?.Invoke();
+
+            Debug.Log($"[EnemySpawner] All waves completed for Level {currentLevelIndex + 1}");
+            yield return new WaitUntil(() => activeEnemies == 0);
+
+            if (!isLevelComplete)
+            {
+                isLevelComplete = true;
+                Debug.Log($"[EnemySpawner] All waves completed for Level {currentLevelIndex + 1}. Triggering level complete.");
+                OnAllWavesCompleted?.Invoke(); //trigger level completion
+            }
             yield break;
         }
 
         isWaveInProgress = true;
 
         WaveConfig currentWave = currentLevel.waves[waveNumber];
-        Debug.Log($"Starting Wave: {waveNumber + 1} in Level {currentLevelIndex + 1}");
+        Debug.Log($"[EnemySpawner] Starting Wave {waveNumber + 1} in Level {currentLevelIndex + 1}");
+        Debug.Log($"[EnemySpawner] Enemies to spawn in this wave: {currentWave.enemiesToSpawn}");
 
         OnWaveStarted?.Invoke(waveNumber + 1);
 
-        StartCoroutine(SpawnWave(currentWave));
+        yield return StartCoroutine(SpawnWave(currentWave));
 
-        while (activeEnemies > 0)
-        {
-            yield return null;
-        }
+        yield return new WaitUntil(() => activeEnemies == 0);
 
-        Debug.Log($"Wave {waveNumber + 1} completed!");
-
-        yield return new WaitForSeconds(timeBetweenWaves);
-
+        Debug.Log($"[EnemySpawner] Wave {waveNumber + 1} completed!");
         waveNumber++;
         isWaveInProgress = false;
 
+        yield return new WaitForSeconds(timeBetweenWaves);
         StartCoroutine(StartNextWave());
     }
 
@@ -126,7 +135,7 @@ public class EnemySpawner : MonoBehaviour
             selectedFactory.CreateEnemy();
 
             activeEnemies++;
-            Debug.Log($"SpawnWave: Active Enemies: {activeEnemies}");
+            Debug.Log($"[EnemySpawner] Spawned enemy {i + 1}/{waveConfig.enemiesToSpawn}. Active Enemies: {activeEnemies}");
 
             yield return new WaitForSeconds(timeBetweenSpawns);
         }
@@ -142,11 +151,12 @@ public class EnemySpawner : MonoBehaviour
         activeEnemies--;
         activeEnemies = Mathf.Max(0, activeEnemies);
 
-        Debug.Log($"OnEnemyRemoved: Active Enemies = {activeEnemies}");
+        Debug.Log($"[EnemySpawner] Enemy removed. Active Enemies = {activeEnemies}");
 
         if (activeEnemies == 0 && isWaveInProgress)
         {
-            Debug.Log("Wave complete!");
+            Debug.Log("[EnemySpawner] Wave complete!");
+            isWaveInProgress = false;
         }
     }
 
@@ -164,5 +174,11 @@ public class EnemySpawner : MonoBehaviour
     public bool LevelsConfigured()
     {
         return levels != null && levels.Count > 0;
+    }
+
+    public void PrepareForNextLevel()
+    {
+        isLevelComplete = false;
+        Debug.Log("[EnemySpawner] Ready for next level.");
     }
 }

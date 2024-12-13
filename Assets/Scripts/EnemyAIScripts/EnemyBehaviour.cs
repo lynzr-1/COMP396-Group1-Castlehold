@@ -130,6 +130,8 @@ public class EnemyBehaviour : MonoBehaviour
 
         _isDead = true;
 
+        LevelManager.Instance.AddToEnemiesKilled(); //notify level manager
+
         //stop and disable the NavMeshAgent
         if (agent != null)
         {
