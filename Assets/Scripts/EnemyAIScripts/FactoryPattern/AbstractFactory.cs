@@ -9,5 +9,5 @@ public abstract class AbstractFactory : MonoBehaviour
     public Transform SpawnLocation;  // Where to spawn enemies
     public Transform TargetLocation;  // Where enemies will move toward (e.g., castle)
 
-    public abstract void CreateEnemy();
+    public abstract void CreateEnemy(Vector3 spawnPosition, Quaternion spawnRotation);
 }

@@ -179,6 +179,7 @@ GameObject:
   - component: {fileID: 8710735446545754452}
   - component: {fileID: 448355128819966723}
   - component: {fileID: -3145404272706251138}
+  - component: {fileID: 5562384370332812236}
   m_Layer: 5
   m_Name: BardTowerButton
   m_TagString: Untagged
@@ -304,8 +305,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerGoldManager: {fileID: 0}
   tileHighlighter: {fileID: 0}
-  towerPrefab: {fileID: 0}
-  towerCost: 0
+  towerPrefab: {fileID: 1117943929649632169, guid: f1f3bd3caedc4f44bb06ce50cc7bddef, type: 3}
+  towerCost: 75
+--- !u!114 &5562384370332812236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6616190837418730906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 343bfe713067ce34a9599db825cdf950, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  towerName: Bard Tower
+  range: 5x5
+  damage: --
+  attackSpeed: 0
+  tooltipManager: {fileID: 0}
 --- !u!1 &6972595512094503816
 GameObject:
   m_ObjectHideFlags: 0
