@@ -9,6 +9,7 @@ public class TowerAttack : MonoBehaviour
     public GameObject projectilePrefab;
     public Transform projectileSpawnPoint;
     public Transform cannonRotator;
+    public AudioSource audioSource;
 
     [Header("Tower Visual Effects")]
     public GameObject smokePrefab;
@@ -87,6 +88,10 @@ public class TowerAttack : MonoBehaviour
             {
                 FireProjectile(targetEnemy);
                 PlaySmokeEffect();
+                if (audioSource != null)
+                {
+                    audioSource.Play();
+                }
                 Debug.Log($"Attacked {targetEnemy.name} for {damage} damage.");
             }
             else
