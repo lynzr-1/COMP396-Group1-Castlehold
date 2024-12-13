@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6119808568923481420
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7924058813478404811}
+  m_Layer: 0
+  m_Name: GoldDropLocation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7924058813478404811
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6119808568923481420}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.5, z: -1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7191323815705918312}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &7225479788096937091
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -98,7 +129,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2a24304f891c5974cba2ac205ec2505b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7924058813478404811}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2a24304f891c5974cba2ac205ec2505b, type: 3}
       insertIndex: -1
@@ -111,14 +145,22 @@ PrefabInstance:
       addedObject: {fileID: 2355201094348297075}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2a24304f891c5974cba2ac205ec2505b, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1310551486639904664}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2a24304f891c5974cba2ac205ec2505b, type: 3}
-      insertIndex: -1
       addedObject: {fileID: -8189674962891357486}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2a24304f891c5974cba2ac205ec2505b, type: 3}
       insertIndex: -1
       addedObject: {fileID: -6113707047433038080}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2a24304f891c5974cba2ac205ec2505b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -829458436176844879}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2a24304f891c5974cba2ac205ec2505b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5580593820898765971}
   m_SourcePrefab: {fileID: 100100000, guid: 2a24304f891c5974cba2ac205ec2505b, type: 3}
+--- !u!4 &7191323815705918312 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2a24304f891c5974cba2ac205ec2505b, type: 3}
+  m_PrefabInstance: {fileID: 7225479788096937091}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7532101344602448338 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 2a24304f891c5974cba2ac205ec2505b, type: 3}
@@ -135,7 +177,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 7e7da86a696f7f441be3b585e5807395, type: 2}
-  m_CullingMode: 0
+  m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -196,7 +238,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 7532101344602448338}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
+  m_Radius: 0.4
   m_Speed: 1.5
   m_Acceleration: 3
   avoidancePriority: 50
@@ -208,30 +250,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: -0.1
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
---- !u!136 &1310551486639904664
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7532101344602448338}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.302536
-  m_Height: 0.761393
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.38450423, z: 0.008014679}
+  m_ObstacleAvoidanceType: 3
 --- !u!114 &-8189674962891357486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,9 +263,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d56b79c13eb13946a06b16abc6b3fb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 10
-  speed: 5
-  maxHealth: 10
+  damage: 5
+  speed: 3
+  maxHealth: 15
   poolManager: {fileID: 0}
   _myself: {fileID: 0}
   _destination: {x: 0, y: 0, z: 0}
@@ -277,3 +296,41 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-829458436176844879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7532101344602448338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af7afa50e419ccd4db5fbf962f03a105, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minGold: 1
+  maxGold: 5
+  dropChance: 1
+  goldCoinPrefab: {fileID: 578397971323283945, guid: 6442b13d1bcb3f1468cf62722b0d1ee4, type: 3}
+  dropPosition: {fileID: 7924058813478404811}
+--- !u!135 &5580593820898765971
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7532101344602448338}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.50459343
+  m_Center: {x: 0, y: 0.4581383, z: 0}

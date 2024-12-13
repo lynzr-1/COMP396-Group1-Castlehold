@@ -8,6 +8,7 @@ public class TowerSlowEffect : MonoBehaviour
     public float slowEffectDuration = 3.0f; // Time the slow effect lasts after the enemy leaves the range
     public float attackInterval = 5.0f; // Time between each AoE slow effect
     public float slowMultiplier = 0.5f; // Speed reduction multiplier (e.g., 0.5 = 50% slower)
+    public AudioSource audioSource;
 
     [Header("Tower Visual Effects")]
     public GameObject aoeEffectPrefab; // Visual AoE effect to show when the tower is active
@@ -72,6 +73,10 @@ public class TowerSlowEffect : MonoBehaviour
 
         // Trigger visual effect
         PlayAoEEffect();
+        if (audioSource != null)
+        {
+            audioSource.Play();
+        }
     }
 
     private IEnumerator ApplyLingeringSlow(EnemyBehaviour enemy)
