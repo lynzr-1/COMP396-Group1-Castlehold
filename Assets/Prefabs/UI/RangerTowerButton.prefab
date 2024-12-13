@@ -212,10 +212,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 343bfe713067ce34a9599db825cdf950, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerName: 
-  range: 
-  damage: 
-  attackSpeed: 
+  towerName: Ranger Tower
+  range: 10
+  damage: 5
+  attackSpeed: 3
   tooltipManager: {fileID: 0}
 --- !u!114 &6616724760434731252
 MonoBehaviour:

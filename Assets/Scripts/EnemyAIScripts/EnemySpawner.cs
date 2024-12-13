@@ -19,7 +19,7 @@ public class EnemySpawner : MonoBehaviour
     public float timeBetweenSpawns = 1f;
 
     [Header("Spawner Settings")]
-    private Transform spawnPoint;
+    [SerializeField] private Transform spawnPoint;
 
     private int currentLevelIndex = 0; //tracks the current level
     private int waveNumber = 0; //tracks the current wave within the level
@@ -37,17 +37,13 @@ public class EnemySpawner : MonoBehaviour
     {
         Debug.Log($"[EnemySpawner] Total levels configured: {levels.Count}");
 
-        GameObject spawnPointObject = GameObject.FindGameObjectWithTag("SpawnPoint");
-        if (spawnPointObject != null)
+        if (spawnPoint == null)
         {
-            spawnPoint = spawnPointObject.transform;
-        }
-        else
-        {
-            Debug.LogError("[EnemySpawner] Spawn point not found");
-            return;
+            Debug.LogError("[EnemySpawner] Spawn point not assigned in the Unity Editor.");
+            return; // Exit early if no spawn point is assigned
         }
 
+        Debug.Log($"[EnemySpawner] Spawn point assigned at position: {spawnPoint.position}");
         StartLevel(0);
     }
 
@@ -132,11 +128,20 @@ public class EnemySpawner : MonoBehaviour
         for (int i = 0; i < waveConfig.enemiesToSpawn; i++)
         {
             AbstractFactory selectedFactory = SelectFactoryForWave(waveConfig.enemyFactories);
-            selectedFactory.CreateEnemy();
+
+            // Check if spawnPoint is valid before using it
+            if (spawnPoint != null)
+            {
+                selectedFactory.CreateEnemy(spawnPoint.position, spawnPoint.rotation);
+                Debug.Log($"[EnemySpawner] Spawned enemy at {spawnPoint.position}");
+            }
+            else
+            {
+                Debug.LogError("[EnemySpawner] Spawn point is null! Defaulting to (0,0,0).");
+                selectedFactory.CreateEnemy(Vector3.zero, Quaternion.identity);
+            }
 
             activeEnemies++;
-            Debug.Log($"[EnemySpawner] Spawned enemy {i + 1}/{waveConfig.enemiesToSpawn}. Active Enemies: {activeEnemies}");
-
             yield return new WaitForSeconds(timeBetweenSpawns);
         }
     }
