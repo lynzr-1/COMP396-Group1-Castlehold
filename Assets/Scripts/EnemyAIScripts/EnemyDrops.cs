@@ -5,34 +5,63 @@ using UnityEngine;
 public class EnemyDrops : MonoBehaviour
 {
     [Header("Gold Drop")]
-    public int goldAmount;
-
-    [Header("Consumable Drops")]
-    public GameObject[] consumables; //array to hold various consumables
-    
+    public int minGold;
+    public int maxGold;    
     [Range(0, 1)] public float dropChance = 0.10f; //base drop chance set to 10%
+
+    [Header("Gold Prefab")]
+    public GameObject goldCoinPrefab;
+
+    [Header("Other Settings")]
+    public Transform dropPosition;
+
+    private PlayerGoldManager goldManager;
+
+    private void Start()
+    {
+        // Find the PlayerGoldManager in the scene
+        goldManager = FindObjectOfType<PlayerGoldManager>();
+
+        if (goldManager == null)
+        {
+            Debug.LogError("PlayerGoldManager not found in the scene!");
+        }
+    }
 
     public void DropLoot() 
     {
-        DropGold();
-        DropConsumables();
+        TryDropGold();
     }
 
-    private void DropGold() 
+    private void TryDropGold()
     {
-        //replace with gold drop logic to add to player gold count
-        Debug.Log($"{this.gameObject.name} dropped {goldAmount} gold.");
-    }
-
-    private void DropConsumables() 
-    {
-        foreach (var consumable in consumables)
+        if (Random.value <= dropChance)  //check if the enemy drops gold
         {
-            if (Random.value <= dropChance)  // Check against the drop chance
+            int goldAmount = Random.Range(minGold, maxGold + 1);  //random gold amount in range
+            SpawnGold(goldAmount);
+
+            if (goldManager != null)
             {
-                //Instantiate(consumable, transform.position, Quaternion.identity);  // Drop consumable at enemy position
-                Debug.Log($"{this.gameObject.name} dropped {consumable.name}");
+                goldManager.AddGold(goldAmount);
+                Debug.Log($"Added {goldAmount} gold to player.");
             }
+        }
+    }
+
+    private void SpawnGold(int amount)
+    {
+        if (goldCoinPrefab != null)
+        {
+            GameObject gold = Instantiate(goldCoinPrefab, dropPosition != null ? dropPosition.position : transform.position, Quaternion.identity);
+
+            //pass the gold amount to the gold prefab script
+            GoldCoin goldScript = gold.GetComponent<GoldCoin>();
+            if (goldScript != null)
+            {
+                goldScript.SetGoldAmount(amount); // Update the gold prefab's visuals or behavior
+            }
+
+            Destroy(gold, 5f); // Destroy the gold prefab after 5 seconds
         }
     }
 }

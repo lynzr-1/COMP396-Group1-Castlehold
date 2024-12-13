@@ -26,6 +26,8 @@ public class EnemySpawner : MonoBehaviour
 
     void Start()
     {
+        Debug.Log($"Total waves configured: {waves.Count}");
+
         GameObject spawnPointObject = GameObject.FindGameObjectWithTag("SpawnPoint"); //get the spawn point object
         
         //if the spawn point exists, get its transform
@@ -63,33 +65,41 @@ public class EnemySpawner : MonoBehaviour
     {
         if (isWaveInProgress || waveNumber >= waves.Count)
         {
-            yield break;  // Prevent multiple calls or starting waves beyond the total count
+            yield break;  //prevent multiple calls or starting waves beyond the total count
         }
-
-        waveNumber++;
-        OnWaveStarted?.Invoke(waveNumber);
 
         isWaveInProgress = true;
 
-        // Spawn the current wave
+        //spawn the current wave
         WaveConfig currentWave = waves[waveNumber];
+        Debug.Log($"Starting Wave: {waveNumber}");
+
+        OnWaveStarted?.Invoke(waveNumber +1);
+
         StartCoroutine(SpawnWave(currentWave));
 
-        // Wait for all enemies in the wave to be cleared
+        //wait for all enemies in the wave to be cleared
         while (activeEnemies > 0)
         {
             yield return null;
         }
 
-        // Wait between waves
+        Debug.Log($"Wave {waveNumber} completed!");
+
+        //wait between waves
         yield return new WaitForSeconds(timeBetweenWaves);
 
-        // Proceed to the next wave
+        waveNumber++;
+
+        Debug.Log($"StartNextWave: Increment waveNumber: {waveNumber}");
+
+        //start the next wave
 
         isWaveInProgress = false;
 
         if (waveNumber < waves.Count)
         {
+            Debug.Log($"Wave number: {waveNumber}, Waves.count: {waves.Count} for if statement");
             StartCoroutine(StartNextWave());
         }
         else
@@ -105,7 +115,10 @@ public class EnemySpawner : MonoBehaviour
         {
             AbstractFactory selectedFactory = SelectFactoryForWave(waveConfig.enemyFactories);
             selectedFactory.CreateEnemy();
+
             activeEnemies++;  // Increment active enemies
+            Debug.Log($"SpawnWave: Active Enemies: {activeEnemies}");
+
             yield return new WaitForSeconds(timeBetweenSpawns);  //add specified delay between enemy spawns
         }
     }
@@ -118,7 +131,15 @@ public class EnemySpawner : MonoBehaviour
     //call this function when an enemy dies or reaches the castle
     public void OnEnemyRemoved()
     {
+        Debug.Log($"OnEnemyRemoved: Active Enemies before decrement: {activeEnemies}");
         activeEnemies--;
-        activeEnemies = Mathf.Max(0, activeEnemies);  //ensure it doesn't go negative
+        Debug.Log($"OnEnemyRemoved: Active enemies after decrement = {activeEnemies}");
+        activeEnemies = Mathf.Max(0, activeEnemies);  //so count doesn't go negative
+
+        //check if wave is complete
+        if (activeEnemies == 0 && isWaveInProgress)
+        {
+            Debug.Log("Wave complete!");
+        }
     }
 }

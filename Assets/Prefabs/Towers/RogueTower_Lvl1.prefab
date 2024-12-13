@@ -159,8 +159,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 466ee16f00cc60e46b904b0e67be4919, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackInterval: 1
-  damage: 3
+  attackInterval: 0.5
+  damage: 5
   projectilePrefab: {fileID: 1615659672019576026, guid: c3866a6ca3864ac44bb960b128a4ac8e, type: 3}
   projectileSpawnPoint: {fileID: 2565142542925954370}
   cannonRotator: {fileID: 700171071556035980}

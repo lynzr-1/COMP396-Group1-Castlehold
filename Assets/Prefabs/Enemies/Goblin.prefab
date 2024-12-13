@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: -4835646231717125675}
   - component: {fileID: -3835421701001705535}
   - component: {fileID: -6037904557483108598}
+  - component: {fileID: 4097107838728054050}
   m_Layer: 0
   m_Name: Goblin
   m_TagString: Enemy
@@ -37,6 +38,7 @@ Transform:
   m_Children:
   - {fileID: 319649503549614832}
   - {fileID: 8648048413812832702}
+  - {fileID: 2623035496986230889}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &3711383613268584559
@@ -190,6 +192,23 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.74677753
   m_Center: {x: 0, y: 0.72474194, z: 0}
+--- !u!114 &4097107838728054050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 148232246833753345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af7afa50e419ccd4db5fbf962f03a105, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minGold: 5
+  maxGold: 10
+  dropChance: 0.5
+  goldCoinPrefab: {fileID: 578397971323283945, guid: 6442b13d1bcb3f1468cf62722b0d1ee4, type: 3}
+  dropPosition: {fileID: 2623035496986230889}
 --- !u!1 &802254827446651119
 GameObject:
   m_ObjectHideFlags: 0
@@ -1287,6 +1306,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6890297572341304847}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7817598010540401357
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2623035496986230889}
+  m_Layer: 0
+  m_Name: GoldDropLocation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2623035496986230889
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7817598010540401357}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: -1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3541166761078117997}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8417240013900442108
 GameObject:

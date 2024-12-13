@@ -126,9 +126,11 @@ public class EnemyBehaviour : MonoBehaviour
     //method to trigger death animation when enemy dies
     public void Die()
     {
+        if ( _isDead ) return; //prevent multiple calls
+
         _isDead = true;
 
-        // Stop and disable the NavMeshAgent
+        //stop and disable the NavMeshAgent
         if (agent != null)
         {
             agent.velocity = Vector3.zero;
@@ -136,20 +138,39 @@ public class EnemyBehaviour : MonoBehaviour
             agent.enabled = false;
         }
 
-        // Disable the collider to prevent interactions
+        //disable the collider
         Collider col = GetComponent<Collider>();
         if (col != null)
         {
             col.enabled = false;
         }
 
-        animator.SetTrigger("Die");  // Trigger death animation
+        animator.SetTrigger("Die");  //trigger death animation
 
-        // Notify all towers about the enemy's destruction
+        // Notify the spawner that this enemy is removed
+        NotifySpawner();
+
+        //notify all towers about the enemy's destruction
         TowerAttack[] towers = FindObjectsOfType<TowerAttack>();
+
         foreach (TowerAttack tower in towers)
         {
             tower.NotifyEnemyDestroyed(gameObject);
+        }
+
+        //drop loot
+        EnemyDrops drops = GetComponent<EnemyDrops>();
+        if (drops != null)
+        {
+            PlayerGoldManager goldManager = FindObjectOfType<PlayerGoldManager>();
+            if (goldManager != null)
+            {
+                drops.DropLoot();
+            }
+            else
+            {
+                Debug.LogError("PlayerGoldManager not found in the scene.");
+            }
         }
 
         StartCoroutine(Destroy());  // Start coroutine to destroy object
