@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -13,6 +14,18 @@ public class OrcAgent : EnemyBehaviour, IAgent
     public void Navigate(Vector3 destination) 
     {
         _destination = destination;
-        agent.destination = _destination;
+        StartCoroutine(SetDestinationWithDelay());
+    }
+    private IEnumerator SetDestinationWithDelay()
+    {
+        yield return null; // Wait a frame
+        if (agent.isActiveAndEnabled && agent.isOnNavMesh)
+        {
+            agent.destination = _destination;
+        }
+        else
+        {
+            Debug.LogError("NavMeshAgent is not active or not on NavMesh!");
+        }
     }
 }

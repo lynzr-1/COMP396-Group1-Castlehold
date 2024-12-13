@@ -5,7 +5,7 @@ public class SkeletonFactory : AbstractFactory
 {
     public PoolManager skeletonPoolManager;  // Reference to the object pool for skeleton
 
-    public override void CreateEnemy()
+    public override void CreateEnemy(Vector3 spawnPosition, Quaternion spawnRotation)
     {
         GameObject skeleton = skeletonPoolManager.GetObject(); ///get skeleton from the pool
         skeleton.transform.position = SpawnLocation.position;
@@ -14,7 +14,14 @@ public class SkeletonFactory : AbstractFactory
         //assign the pool manager reference to the enemy
         skeleton.GetComponent<EnemyBehaviour>().poolManager = skeletonPoolManager;
 
-        //set destination for the orc
-        skeleton.GetComponent<SkeletonAgent>().Navigate(TargetLocation.position);
+        // Set destination
+        if (TargetLocation != null)
+        {
+            skeleton.GetComponent<SkeletonAgent>().Navigate(TargetLocation.position);
+        }
+        else
+        {
+            Debug.LogError("[SkeletonFactory] TargetLocation is null - cannot navigate.");
+        }
     }
 }

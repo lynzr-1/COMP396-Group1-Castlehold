@@ -4,7 +4,7 @@ using UnityEngine.Pool;
 public class GoblinFactory : AbstractFactory
 {
     public PoolManager goblinPoolManager;  // Reference to the object pool for goblins
-    public override void CreateEnemy()
+    public override void CreateEnemy(Vector3 spawnPosition, Quaternion spawnRotation)
     {
         GameObject goblin = goblinPoolManager.GetObject(); ///get goblin from the pool
         goblin.transform.position = SpawnLocation.position;
@@ -13,7 +13,14 @@ public class GoblinFactory : AbstractFactory
         //assign the pool manager reference to the enemy
         goblin.GetComponent<EnemyBehaviour>().poolManager = goblinPoolManager;
 
-        //set destination for the orc
-        goblin.GetComponent<GoblinAgent>().Navigate(TargetLocation.position);
+        // Set destination
+        if (TargetLocation != null)
+        {
+            goblin.GetComponent<GoblinAgent>().Navigate(TargetLocation.position);
+        }
+        else
+        {
+            Debug.LogError("[GoblinFactory] TargetLocation is null - cannot navigate.");
+        }
     }
 }

@@ -5,16 +5,24 @@ public class OrcFactory : AbstractFactory
 {
     public PoolManager orcPoolManager;  // Reference to the object pool for orcs
 
-    public override void CreateEnemy()
+    public override void CreateEnemy(Vector3 spawnPosition, Quaternion spawnRotation)
     {
-        GameObject orc = orcPoolManager.GetObject(); ///get orc from the pool
-        orc.transform.position = SpawnLocation.position;
-        orc.transform.rotation = SpawnLocation.rotation;
+        GameObject orc = orcPoolManager.GetObject(); //get orc from the pool
+        orc.transform.position = spawnPosition;     //set spawn position
+        orc.transform.rotation = spawnRotation;     //set spawn rotation
+        Debug.Log($"[OrcFactory] Setting spawn point at {spawnPosition} position and {spawnRotation} rotation");
 
-        //assign the pool manager reference to the enemy
+        // Assign the pool manager reference to the enemy
         orc.GetComponent<EnemyBehaviour>().poolManager = orcPoolManager;
 
-        //set destination for the orc
-        orc.GetComponent<OrcAgent>().Navigate(TargetLocation.position);
+        // Set destination for the orc
+        if (TargetLocation != null)
+        {
+            orc.GetComponent<OrcAgent>().Navigate(TargetLocation.position);
+        }
+        else
+        {
+            Debug.LogError("[OrcFactory] TargetLocation is null. Orc cannot navigate.");
+        }
     }
 }
