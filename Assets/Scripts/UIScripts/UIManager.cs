@@ -15,7 +15,9 @@ public class UIManager : MonoBehaviour
 
     [Header("Level Complete UI")]
     [SerializeField] private GameObject _levelCompletePanel;
-    [SerializeField] private TextMeshProUGUI _levelCompleteText;
+    [SerializeField] private TextMeshProUGUI _wavesSurvivedText;
+    [SerializeField] private TextMeshProUGUI _enemiesKilledText;
+    [SerializeField] private TextMeshProUGUI _goldEarnedText;
 
     private int _waveCount;
     private int _currentWave;
@@ -76,17 +78,15 @@ public class UIManager : MonoBehaviour
         _goldCounterText.text = $"{currentGold}";
     }
 
-    public void ShowLevelComplete(int currentLevel, int totalLevels)
+    public void ShowLevelComplete(int wavesSurvived, int enemiesKilled, int totalGoldEarned)
     {
         if (_levelCompletePanel != null)
         {
             _levelCompletePanel.SetActive(true);
-            _levelCompleteText.text = $"Level {currentLevel} Complete!";
 
-            if (currentLevel >= totalLevels)
-            {
-                _levelCompleteText.text += "\nCongratulations! You've completed all levels!";
-            }
+            _wavesSurvivedText.text = $"Waves Survived: {wavesSurvived}";
+            _enemiesKilledText.text = $"Enemies Killed: {enemiesKilled}";
+            _goldEarnedText.text = $"Gold Earned: {totalGoldEarned}";
         }
     }
 
@@ -96,6 +96,12 @@ public class UIManager : MonoBehaviour
         {
             _levelCompletePanel.SetActive(false);
         }
+    }
+
+    public void OnNextLevelButtonPressed()
+    {
+        LevelManager.Instance.LoadNextLevel();
+        HideLevelComplete(); //hide the Level Complete panel
     }
 
     private void OnDestroy()

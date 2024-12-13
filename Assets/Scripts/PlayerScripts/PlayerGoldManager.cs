@@ -47,6 +47,7 @@ public class PlayerGoldManager : MonoBehaviour
     public void AddGold(int amount)
     {
         currentGold += amount;
+        LevelManager.Instance.AddToGoldEarned(amount); //notify level manager
         _uiManager?.UpdateGoldCounter(currentGold); //update gold counter on the UI
     }
 }

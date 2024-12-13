@@ -12,6 +12,11 @@ public class LevelManager : MonoBehaviour
     [Header("Level Settings")]
     public int totalLevels = 3;
 
+    [Header("Player Stats")] //to track data for the level complete UI
+    public int wavesSurvived = 0;
+    public int enemiesKilled = 0;
+    public int totalGoldEarned = 0;
+
     private EnemySpawner enemySpawner;
     private UIManager uiManager;
 
@@ -48,16 +53,45 @@ public class LevelManager : MonoBehaviour
     public void StartLevel()
     {
         Debug.Log($"Starting Level {currentLevel}");
+
+        //reset variables for new level
+        wavesSurvived = 0; 
+        enemiesKilled = 0; 
+
         if (enemySpawner != null)
         {
             enemySpawner.StartLevel(currentLevel - 1);
         }
     }
-
+     
     private void HandleLevelComplete()
     {
-        Debug.Log($"Level {currentLevel} Complete!");
-        uiManager?.ShowLevelComplete(currentLevel, totalLevels);
+        Debug.Log($"[LevelManager] Level {currentLevel} Complete!");
+
+        if (enemySpawner != null)
+        {
+            enemySpawner.PrepareForNextLevel(); //reset the spawner for the next level
+        }
+        
+        uiManager?.ShowLevelComplete(wavesSurvived, enemiesKilled, totalGoldEarned);
+    }
+
+    //waves survived tracker method
+    private void UpdateWavesSurvived()
+    {
+        wavesSurvived++;
+    }
+
+    //enemies killed tracker method
+    public void AddToEnemiesKilled()
+    {
+        enemiesKilled++;
+    }
+
+    //gold earned tracker method
+    public void AddToGoldEarned(int gold)
+    {
+        totalGoldEarned += gold;
     }
 
     public void LoadNextLevel()
