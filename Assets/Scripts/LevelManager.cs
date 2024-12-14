@@ -54,6 +54,20 @@ public class LevelManager : MonoBehaviour
 
     public void StartLevel()
     {
+        enemySpawner = FindObjectOfType<EnemySpawner>();
+        uiManager = FindObjectOfType<UIManager>();
+        castleHealthManager = FindObjectOfType<CastleHealthManager>();
+        PlayerGoldManager playerGoldManager = FindObjectOfType<PlayerGoldManager>();
+
+        if (enemySpawner != null)
+        {
+            enemySpawner.OnAllWavesCompleted += HandleLevelComplete;
+            enemySpawner.StartLevel(currentLevel - 1);
+        }
+        else
+        {
+            Debug.LogError("EnemySpawner not found in the scene!");
+        }
 
         // Reset castle health
         if (castleHealthManager != null)
@@ -61,23 +75,17 @@ public class LevelManager : MonoBehaviour
             castleHealthManager.ResetHealth();
         }
 
-        // Initialize PlayerGoldManager with GameManager gold
-        PlayerGoldManager playerGoldManager = FindObjectOfType<PlayerGoldManager>();
         if (playerGoldManager != null)
         {
-            playerGoldManager.Start(); // Refresh gold from GameManager
+            playerGoldManager.Initialize(GameManager.Instance?.playerGold > 0 ? GameManager.Instance.playerGold : playerGoldManager.startingGold);
         }
 
         Debug.Log($"Starting Level {currentLevel}");
 
-        //reset variables for new level
-        wavesSurvived = 0; 
-        enemiesKilled = 0; 
-
-        if (enemySpawner != null)
-        {
-            enemySpawner.StartLevel(currentLevel - 1);
-        }
+        // Reset variables for the new level
+        wavesSurvived = 0;
+        enemiesKilled = 0;
+        totalGoldEarned = 0;
     }
      
     private void HandleLevelComplete()
@@ -115,6 +123,12 @@ public class LevelManager : MonoBehaviour
         if (currentLevel < totalLevels)
         {
             currentLevel++;
+            string nextSceneName = $"Level{currentLevel}"; // Ensure scenes are named consistently
+
+            Debug.Log($"Loading {nextSceneName}...");
+            SceneManager.LoadScene(nextSceneName);
+
+            // Refresh scene-specific references after scene loads
             StartLevel();
         }
         else

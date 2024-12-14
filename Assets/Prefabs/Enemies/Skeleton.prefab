@@ -499,9 +499,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd8a6ec21bfe8cd4f8f4e6967e4cc3a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 7
+  damage: 10
   speed: 4
-  maxHealth: 20
+  maxHealth: 35
   poolManager: {fileID: 0}
   _myself: {fileID: 0}
   _destination: {x: 0, y: 0, z: 0}

@@ -22,6 +22,11 @@ public class TowerDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, 
 
     private void Start()
     {
+        if (_playerGoldManager == null)
+        {
+            _playerGoldManager = FindObjectOfType<PlayerGoldManager>();
+        }
+
         if (tileHighlighter == null)
         {
             Debug.LogError("TileHighlighter not found in the scene!");
@@ -64,7 +69,7 @@ public class TowerDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, 
 
         if (canPlace && isValidPlacement)
         {
-            if (_playerGoldManager.SpendGold(towerCost)) // Deduct gold and update UI/GameManager
+            if (_playerGoldManager != null && _playerGoldManager.SpendGold(towerCost)) // Subtract gold from the player
             {
                 Instantiate(towerPrefab, tilePosition, Quaternion.identity); // Place the tower
             }
