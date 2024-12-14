@@ -39,6 +39,7 @@ Transform:
   - {fileID: 319649503549614832}
   - {fileID: 8648048413812832702}
   - {fileID: 2623035496986230889}
+  - {fileID: 8006282999396715496}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &3711383613268584559
@@ -206,9 +207,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minGold: 5
   maxGold: 10
-  dropChance: 0.5
+  goldDropChance: 0.25
   goldCoinPrefab: {fileID: 578397971323283945, guid: 6442b13d1bcb3f1468cf62722b0d1ee4, type: 3}
+  healthHeartPrefab: {fileID: 90687929027126413, guid: 77c61718011441b41b6b52e9fa6636b1, type: 3}
+  heartDropChance: 0.5
   dropPosition: {fileID: 2623035496986230889}
+  heartDropPosition: {fileID: 8006282999396715496}
 --- !u!1 &802254827446651119
 GameObject:
   m_ObjectHideFlags: 0
@@ -697,6 +701,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9080379388164358844}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2988333723447405537
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8006282999396715496}
+  m_Layer: 0
+  m_Name: HeartDropLocation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8006282999396715496
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2988333723447405537}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.606, y: 1, z: -1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3541166761078117997}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3141211478667196437
 GameObject:
@@ -1332,7 +1367,7 @@ Transform:
   m_GameObject: {fileID: 7817598010540401357}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -1}
+  m_LocalPosition: {x: 1.138, y: 1, z: -1}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
