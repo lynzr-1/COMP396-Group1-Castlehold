@@ -12,9 +12,9 @@ public class PlayerGoldManager : MonoBehaviour
     [SerializeField] private UIManager _uiManager; //reference to the UI manager script
 
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
-        currentGold = startingGold;
+        currentGold = GameManager.Instance.playerGold > 0 ? GameManager.Instance.playerGold : startingGold;
 
         if (_uiManager != null)
         {
@@ -36,6 +36,7 @@ public class PlayerGoldManager : MonoBehaviour
         if (currentGold >= amount) //check if player has enough gold to make the purchase
         {
             currentGold -= amount;
+            GameManager.Instance.DeductGold(amount);
             _uiManager?.UpdateGoldCounter(currentGold); //update gold counter on the UI
             return true;
         }
@@ -47,6 +48,7 @@ public class PlayerGoldManager : MonoBehaviour
     public void AddGold(int amount)
     {
         currentGold += amount;
+        GameManager.Instance.AddGold(amount);
         LevelManager.Instance.AddToGoldEarned(amount); //notify level manager
         _uiManager?.UpdateGoldCounter(currentGold); //update gold counter on the UI
     }

@@ -41,14 +41,14 @@ public class EnemyDrops : MonoBehaviour
 
     private void TryDropGold()
     {
-        if (Random.value <= goldDropChance)  //check if the enemy drops gold
+        if (Random.value <= goldDropChance)  // Check if the enemy drops gold
         {
-            int goldAmount = Random.Range(minGold, maxGold + 1);  //random gold amount in range
+            int goldAmount = Random.Range(minGold, maxGold + 1);  // Random gold amount in range
             SpawnGold(goldAmount);
 
             if (goldManager != null)
             {
-                goldManager.AddGold(goldAmount);
+                goldManager.AddGold(goldAmount); // Update PlayerGoldManager
                 Debug.Log($"Added {goldAmount} gold to player.");
             }
         }

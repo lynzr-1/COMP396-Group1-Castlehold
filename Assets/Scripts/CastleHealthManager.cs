@@ -14,9 +14,15 @@ public class CastleHealthManager : MonoBehaviour
 
     private void Start()
     {
+        ResetHealth();
+    }
+
+    public void ResetHealth()
+    {
         currentHealth = maxHealth;
         healthPercentage.text = $"{currentHealth}%";
         UpdateHealthBar();
+        Debug.Log("Castle health reset to full.");
     }
 
     // Function to take damage

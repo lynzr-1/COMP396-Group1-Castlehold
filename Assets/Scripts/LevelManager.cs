@@ -19,6 +19,7 @@ public class LevelManager : MonoBehaviour
 
     private EnemySpawner enemySpawner;
     private UIManager uiManager;
+    private CastleHealthManager castleHealthManager;
 
     private void Awake()
     {
@@ -37,6 +38,7 @@ public class LevelManager : MonoBehaviour
     {
         enemySpawner = FindObjectOfType<EnemySpawner>();
         uiManager = FindObjectOfType<UIManager>();
+        castleHealthManager = FindObjectOfType<CastleHealthManager>();
 
         if (enemySpawner != null)
         {
@@ -52,6 +54,20 @@ public class LevelManager : MonoBehaviour
 
     public void StartLevel()
     {
+
+        // Reset castle health
+        if (castleHealthManager != null)
+        {
+            castleHealthManager.ResetHealth();
+        }
+
+        // Initialize PlayerGoldManager with GameManager gold
+        PlayerGoldManager playerGoldManager = FindObjectOfType<PlayerGoldManager>();
+        if (playerGoldManager != null)
+        {
+            playerGoldManager.Start(); // Refresh gold from GameManager
+        }
+
         Debug.Log($"Starting Level {currentLevel}");
 
         //reset variables for new level
