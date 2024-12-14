@@ -4,6 +4,9 @@ using UnityEngine.UI;
 
 public class CastleHealthManager : MonoBehaviour
 {
+
+    public static CastleHealthManager Instance;
+
     [Header("Health Settings")]
     public float maxHealth = 100f;
     private float currentHealth;
@@ -11,6 +14,19 @@ public class CastleHealthManager : MonoBehaviour
     [Header("UI Settings")]
     public Image healthFillImage;  //health bar fill image assigned in inspector
     public TextMeshProUGUI healthPercentage;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private void Start()
     {

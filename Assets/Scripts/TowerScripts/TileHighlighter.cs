@@ -4,12 +4,24 @@ using UnityEngine;
 
 public class TileHighlighter : MonoBehaviour
 {
+
+    public static TileHighlighter Instance;
+
     public Color validColor = Color.green;
     public Color invalidColor = Color.red;
     private Renderer highlightRenderer;
 
     private void Awake()
     {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
         highlightRenderer = GetComponent<Renderer>();
         if (highlightRenderer == null)
         {
