@@ -64,9 +64,9 @@ public class TowerDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, 
 
         if (canPlace && isValidPlacement)
         {
-            if (_playerGoldManager.SpendGold(towerCost)) //subtract gold from the player
+            if (_playerGoldManager.SpendGold(towerCost)) // Deduct gold and update UI/GameManager
             {
-                Instantiate(towerPrefab, tilePosition, Quaternion.identity); //place the tower
+                Instantiate(towerPrefab, tilePosition, Quaternion.identity); // Place the tower
             }
             else
             {
