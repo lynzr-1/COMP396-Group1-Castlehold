@@ -34,6 +34,14 @@ public class CastleHealthManager : MonoBehaviour
         }
     }
 
+    public void HealCastle(float healAmount)
+    {
+        currentHealth += healAmount;
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); //health shouldn't go below zero or above max health
+        healthPercentage.text = $"{currentHealth}%";
+        UpdateHealthBar();
+    }
+
     // Function to update the health bar UI
     private void UpdateHealthBar()
     {
