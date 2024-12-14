@@ -11,19 +11,33 @@ public class PlayerGoldManager : MonoBehaviour
 
     [SerializeField] private UIManager _uiManager; //reference to the UI manager script
 
-    // Start is called before the first frame update
-    public void Start()
+    private void Awake()
     {
-        currentGold = GameManager.Instance.playerGold > 0 ? GameManager.Instance.playerGold : startingGold;
+        // Ensure UIManager is assigned
+        if (_uiManager == null)
+        {
+            _uiManager = FindObjectOfType<UIManager>();
+            if (_uiManager == null)
+            {
+                Debug.LogError("UIManager not found in the scene! Make sure it's assigned or present.");
+            }
+        }
 
-        if (_uiManager != null)
-        {
-            _uiManager.UpdateGoldCounter(currentGold);
-        }
-        else
-        {
-            Debug.LogError("UIManager not found in the scene!");
-        }
+        DontDestroyOnLoad(gameObject);
+    }
+
+    // Start is called before the first frame update
+    private void Start()
+    {
+        Initialize(GameManager.Instance?.playerGold > 0 ? GameManager.Instance.playerGold : startingGold);
+    }
+
+    public void Initialize(int initialGold)
+    {
+        currentGold = initialGold;
+
+        // Update UI with current gold
+        _uiManager?.UpdateGoldCounter(currentGold);
     }
 
     public int GetGold()
