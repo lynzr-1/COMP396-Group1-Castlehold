@@ -7,13 +7,18 @@ public class EnemyDrops : MonoBehaviour
     [Header("Gold Drop")]
     public int minGold;
     public int maxGold;    
-    [Range(0, 1)] public float dropChance = 0.10f; //base drop chance set to 10%
+    [Range(0, 1)] public float goldDropChance = 0.10f; //base drop chance set to 10%
 
     [Header("Gold Prefab")]
     public GameObject goldCoinPrefab;
 
+    [Header("Health Drops")]
+    public GameObject healthHeartPrefab;
+    [Range(0, 1)] public float heartDropChance = 0.10f; //base drop chance set to 10%
+
     [Header("Other Settings")]
     public Transform dropPosition;
+    public Transform heartDropPosition;
 
     private PlayerGoldManager goldManager;
 
@@ -31,18 +36,19 @@ public class EnemyDrops : MonoBehaviour
     public void DropLoot() 
     {
         TryDropGold();
+        TryDropHeart();
     }
 
     private void TryDropGold()
     {
-        if (Random.value <= dropChance)  //check if the enemy drops gold
+        if (Random.value <= goldDropChance)  // Check if the enemy drops gold
         {
-            int goldAmount = Random.Range(minGold, maxGold + 1);  //random gold amount in range
+            int goldAmount = Random.Range(minGold, maxGold + 1);  // Random gold amount in range
             SpawnGold(goldAmount);
 
             if (goldManager != null)
             {
-                goldManager.AddGold(goldAmount);
+                goldManager.AddGold(goldAmount); // Update PlayerGoldManager
                 Debug.Log($"Added {goldAmount} gold to player.");
             }
         }
@@ -62,6 +68,24 @@ public class EnemyDrops : MonoBehaviour
             }
 
             Destroy(gold, 5f); // Destroy the gold prefab after 5 seconds
+        }
+    }
+
+    private void TryDropHeart()
+    {
+        if (Random.value <= heartDropChance)  //check if the enemy drops a heart
+        {
+            SpawnHeart();
+        }
+    }
+
+    private void SpawnHeart()
+    {
+        if (healthHeartPrefab != null)
+        {
+            GameObject heart = Instantiate(healthHeartPrefab, dropPosition != null ? dropPosition.position : transform.position, Quaternion.identity);
+
+            Destroy(heart, 5f); // Destroy the gold prefab after 5 seconds
         }
     }
 }

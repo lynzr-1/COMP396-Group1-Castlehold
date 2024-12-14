@@ -14,9 +14,15 @@ public class CastleHealthManager : MonoBehaviour
 
     private void Start()
     {
+        ResetHealth();
+    }
+
+    public void ResetHealth()
+    {
         currentHealth = maxHealth;
         healthPercentage.text = $"{currentHealth}%";
         UpdateHealthBar();
+        Debug.Log("Castle health reset to full.");
     }
 
     // Function to take damage
@@ -32,6 +38,14 @@ public class CastleHealthManager : MonoBehaviour
             Debug.Log("Castle has been destroyed!");
             // game over logic can go here
         }
+    }
+
+    public void HealCastle(float healAmount)
+    {
+        currentHealth += healAmount;
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); //health shouldn't go below zero or above max health
+        healthPercentage.text = $"{currentHealth}%";
+        UpdateHealthBar();
     }
 
     // Function to update the health bar UI

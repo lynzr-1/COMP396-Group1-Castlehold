@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7048253367067757663}
   - component: {fileID: 7342262622327725736}
   - component: {fileID: -7574180061665137720}
-  - component: {fileID: 2573251376933118267}
+  - component: {fileID: 8131906498445198830}
   m_Layer: 0
   m_Name: Gold
   m_TagString: Consumable
@@ -30,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 578397971323283945}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.7, y: 0.7, z: 0.3}
   m_ConstrainProportionsScale: 0
@@ -134,7 +134,7 @@ AudioSource:
   m_GameObject: {fileID: 578397971323283945}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: c12406f17f820fe48ba1cb726cfdaab6, type: 2}
   m_audioClip: {fileID: 8300000, guid: 727a23420edaf3741abf971ede9be8e0, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -221,7 +221,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &2573251376933118267
+--- !u!114 &8131906498445198830
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
